@@ -29,6 +29,7 @@ for lk in wb_links_elements:
 # workaddress = []
 jddr = webdriver.Chrome()
 print(wb_links)
+updatetime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 for urlstring in wb_links:
     id = re.search(r'https://www.lagou.com/jobs/([0-9]*).html', urlstring).group(1)
     # ids.append(id)
@@ -41,9 +42,9 @@ for urlstring in wb_links:
     jobdescription = jddr.find_element_by_class_name('job_bt').text
     workaddress = jddr.find_element_by_class_name(' work_addr').text
     cur.execute('''
-                INSERT INTO lagoujobs (id, company, jobtitle, jd, address)
-                VALUES (%s, %s, %s, %s, %s)''',
-                (id, company, jobtitle, jobdescription, workaddress))
+                INSERT INTO lagoujobs (id, company, jobtitle, jd, address, updatetime)
+                VALUES (%s, %s, %s, %s, %s, %s)''',
+                (id, company, jobtitle, jobdescription, workaddress, updatetime))
     a = random.uniform(5, 10)
     print('sleep:', a)
     time.sleep(a)
